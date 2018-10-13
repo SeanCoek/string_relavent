@@ -1,0 +1,99 @@
+\documentclass{article}
+% \usepackage[UTF8]{ctex}
+\usepackage{paralist}
+\usepackage{geometry}
+\usepackage[colorlinks, linkcolor=black]{hyperref}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\geometry{a4paper, scale=0.65}
+\author{Xilong Zhuo}
+\title{String Relevant Reflection APIs}
+\begin{document}
+	\maketitle
+
+	\section{Reflection}
+	In this section we introduce the reflection APIs in Java and list all the APIs related to string.\\
+	Reflection can enable programs to examine or modify the runtime behavior of applications running in the Java virtual machine. Reflection APIs can be divided into 4 categories which are represented below respectively as \emph{obtain a class},\emph{create a object},\emph{access to field} and \emph{access to method}. String relevant APIs will be mark with "*" at the end of its name. Static methods showed in table below will be written as in italic.	
+	\subsection{Obtain a class}
+	\emph{java.lang.Class} is the entry point for all reflection operations. 
+	Table 1 shows several ways to get a \emph{Class}.
+	\begin{table}[hp]
+	\begin{tabular}{p{7.5cm}p{7cm}}
+	\hline
+	\textbf{API}&\textbf{Description}\\
+	\hline
+	java.lang.Object.getClass()&only works for reference types which all inherit from \emph{Object}\\
+	\hline
+	the \textbf{.class} Syntax&Confused here, At first it says the code in this site is correct, but then indicate that statement would produce a compile-time error. \href{https://docs.oracle.com/javase/tutorial/reflect/class/classNew.html}{Here}\\
+	\hline
+	\emph{java.lang.Class.forName(String className)*}&fully-qualified name of a class is available.The syntax for names of array classes is described by \href{https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getName--}{Class.getName()}\\
+	\hline
+	\emph{java.lang.Class.forName(String name, boolean initialize, ClassLoader loader)*}& - \\
+	\hline
+	the \textbf{TYPE} field&for primitive types and \emph{void}\\
+	\hline
+	\tabincell{l}{java.lang.Class.getSuperclass()\\java.lang.Class.getClasses()\\java.lang.Class.getDeclaredClasses()\\java.lang.Class.getDelaringClass()\\java.lang.reflect.Field.getDeclaringClass()\\java.lang.reflect.Method.getDeclaringClass()\\java.lang.reflect.Constructor.getDeclaringClass()}&these methods can only be accessed if a class has already been obtained\\
+	\hline
+	\end{tabular}
+	\caption{several ways to get a class}
+	\end{table}
+
+	\subsection{Create a object}
+	Reflection provides tow ways to create a object. They behaves very much like the \emph{new} keyword. The details is showed in Table 2.
+	\begin{table}[hp]
+	\begin{tabular}{p{7.5cm}p{7cm}}
+	\hline
+	\textbf{API}&\textbf{Description}\\
+	\hline
+	\emph{java.lang.Class.newInstance()}&It could only call the empty-parameter constructor and fails when that constructor can't be access(non-existent or private). But this is the commonest usage.\\ 
+	\hline
+	java.lang.reflect.Constructor.newInstance(Object... initargs)*&\\
+	\hline
+	\end{tabular}
+	\caption{APIs to create a object}
+	\end{table}
+	The constructor object can be obtained by invoking \emph{java.lang.Class.getConstructor(Class$<?>$... parameterTypes)} or \emph{java.lang.Class.getConstructors()}.
+
+	\subsection{Access to field}
+	The \emph{java.lang.reflect.Field} class provides methods for accessing type information and setting and getting values of a field on a given object. Details in table 3.
+	\begin{table}[hp]
+	\begin{tabular}{p{8cm}p{7cm}}
+	\hline
+	\textbf{API}&\textbf{Description}\\
+	\hline
+	\tabincell{l}{java.lang.Class.getField(String name)*\\java.lang.Class.getFields()\\java.lang.Class.getDeclaredFields()\\java.lang.Class.getDeclaredField(String name)*}&APIs with name including "Declared" can return not only public field.\\
+	\hline
+	java.lang.reflect.Field.getModifiers()&\\
+	\hline
+	java.lang.reflect.Field.getName()&\\
+	\hline
+	\tabincell{l}{java.lang.reflect.Field.set(Object obj,\\ Object value)*\\java.lang.reflect.Field.setBoolean(Object obj,\\ boolean z)\\setLong, setByte,...}&the first parameter represents a certain object which these operation perform on.\\
+	\hline
+	\tabincell{l}{java.lang.reflect.Field.get(Object obj)\\java.lang.reflect.Field.get...}& get a value from certain object at runtime\\
+	\hline
+
+	\end{tabular}
+	\caption{Access to method}
+	\end{table}
+
+	\subsection{Access to method}
+	The \emph{java.lang.reflect.Method} class provides APIs to access information about a method's modifiers, return type, parameters, annotations, and thrown exceptions. It also be used to invoke methods.
+	\begin{table}[hp]
+	\begin{tabular}{p{7.5cm}p{7cm}}
+	\hline
+	\textbf{API}&\textbf{Description}\\
+	\hline
+	\tabincell{l}{java.lang.Class.getMethod(String name,\\ Class$<?>$... parameterTypes)\\java.lang.Class.getMethods()\\java.lang.Class.getDeclaredMethod(String name,\\ Class$<?>$... parameterTypes)\\java.lang.Class.getDeclaredMethods()}&same as field\\
+	\hline
+	java.lang.reflect.Method.getModifiers()&\\
+	\hline
+	java.lang.reflect.Method.getName()&\\
+	\hline
+	java.lang.reflect.Method.getParameters()&\\
+	\hline
+	\tabincell{l}{java.lang.reflect.Method.invoke(Object obj,\\ Object... args)*}& invoking a method at runtime.\\
+	\hline
+	\end{tabular}
+	\caption{access to method}
+	\end{table}
+
+\end{document}
