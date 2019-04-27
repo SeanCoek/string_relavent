@@ -1,6 +1,7 @@
 package reflection.interprocedure;
 
 import reflection.BaseCase;
+import LoggerLib.Logger;
 
 public class BranchInter extends BaseCase {
     public String getClassName() {

@@ -1,6 +1,7 @@
 package reflection.interprocedure;
 
 import reflection.BaseCase;
+import LoggerLib.Logger;
 
 public class LoopInter extends BaseCase {
     public String getClassName(int idx) {

@@ -1,6 +1,7 @@
 package reflection.interprocedure;
 
 import reflection.BaseCase;
+import LoggerLib.Logger;
 
 public class SequentialInter extends BaseCase {
     public String getClassName1() {
