@@ -1,0 +1,353 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  % or ...
+
+  \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=1
+}
+\usepackage[utf8]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\title
+{Reflection Test Using Violist}
+
+
+\author % (optional, use only with lots of authors)
+{Sean}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[Universities of Somewhere and Elsewhere] % (optional, but mostly needed)
+{
+  Department of Information Science\\
+  Jinan University
+}
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}	{Experiment Introduction}
+	We use Violist, the string analyzer, to analyze some test cases about Java reflection. We conduct this analysis on 12 test cases. 
+\begin{itemize}
+	\item 3 for basic program structure: Sequential, Branch and Loop
+	\item 3 for basic structure with inter-procedural
+	\item 3 for Infinite Test and Recursive Test
+	\item 3 for realistic test case
+\end{itemize}
+	\begin{table}
+		\centering
+		\caption{Experiment Environment}
+		\begin{tabular}{|c|c|c|}
+		\hline
+		Analyzer&JDK&Description\\
+		\hline
+		Violist\_old&openjdk1.8&new Violist can only analyze Android\\
+		\hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Experiment Result}
+\begin{table}
+	\centering
+	\caption{Experiment Result}
+	\begin{tabular}{ccc}
+	\hline
+	\textbf{Test Case}&\textbf{SSI}&\textbf{FSAI}\\
+	\hline
+	Sequential&\checkmark&\checkmark\\
+%	\hline
+	Branch&\checkmark&\checkmark\\
+%	\hline
+	Loop&\emph{N}&\emph{N}\\
+%	\hline
+	Sequential Inter&\checkmark&\checkmark\\
+%	\hline
+	Branch Inter&\checkmark&\checkmark\\
+%	\hline
+	Loop Inter&\checkmark&\checkmark\\
+%	\hline
+	Infinite Test1&$\odot$&\checkmark\\
+%	\hline
+	Infinite Test2&$\times$&$\times$\\
+%	\hline
+	Recursive&$\odot$&$\odot$\\
+%	\hline
+	External classname&\checkmark&\checkmark\\
+%	\hline
+	directions classname&\emph{N}&\emph{N}\\
+%	\hline
+	OWASP&\checkmark&\checkmark\\
+	\hline
+	\end{tabular}
+\end{table}
+$"\odot"$ denotes partly correct, \emph{N} denotes No Result.
+\end{frame}
+
+\begin{frame}{Notice}
+
+\textbf{Strangely}, the analysis result is unstable. We execute in many times. It happens that sometimes the test case which can be analyzed in last run, cannot be analyzed this run, vice versa.
+The detail analysis result will be described next.
+\end{frame}
+
+\begin{frame}[fragile]{Basic Structure Test -- Sequential}
+Test Code:
+\begin{lstlisting}
+    public void test(){
+        String className = "java.lang.Object1";
+        // analysis point 1: "java.lang.Object1"
+        Logger.reportString(className, "Sequential1");
+        doReflect(className);
+        className = "java.lang.Object2";
+        // analysis point 2: "java.lang.Object2" 
+        Logger.reportString(className, "Sequential12");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"java.lang.Object1"\}, \{"java.lang.Object2"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+\begin{frame}[fragile]{Basic Structure Test -- Branch}
+Test Code:
+\begin{lstlisting}
+    public void test(){
+        String className = null;
+        if(Math.random() > 0.5) {
+            className = "java.lang.Object";
+        } else {
+            className = "java.lang.Class";
+        }
+        // analysis point
+        Logger.reportString(className, "Branch");       
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"java.lang.Object","java.lang.Class"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+\begin{frame}[fragile]{Basic Structure Test -- Loop}
+Test Code:
+\begin{lstlisting}
+    public void test(){
+        String className;
+        String[] names = {"java.lang.Loop0", "java.lang.Loop1", "java.lang.Loop2", "java.lang.Loop3"};
+        for(int i=0; i<4; i++) {
+            className = names[i];
+            // analysis point
+            Logger.reportString(className, "Loop");    
+            doReflect(className);
+        }
+    }
+\end{lstlisting}
+SSI Result:\\
+FASI Result:
+\end{frame}
+
+\begin{frame}[fragile]{Sequential with Inter-Procedural}
+\begin{lstlisting}
+    public String getClassName1() {
+        return "java.lang.Object1";}
+    public String getClassName2() {
+        return "java.lang.Object2";}
+    public void test(){
+        String className = getClassName1();
+        Logger.reportString(className, "SequentialInter1");
+        doReflect(className);
+        className = getClassName2();
+        Logger.reportString(className, "Sequential1Inter2"); 
+        doReflect(className);}
+\end{lstlisting}
+SSI Result: \{"java.lang.Object1"\}, \{"java.lang.Object2"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+
+\begin{frame}[fragile]{Branch with Inter-Procedural}
+\begin{lstlisting}
+    public String getClassName() {
+        String className = null;
+        if(Math.random() > 0.5) {
+            className = "java.lang.Object";
+        } else {
+            className = "java.lang.Class";
+        }
+        return className;}
+    public void test(){
+        String className = getClassName();
+        Logger.reportString(className, "BranchInter");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"java.lang.Object","java.lang.Class"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+
+\begin{frame}[fragile]{Loop with Inter-Procedural}
+\begin{lstlisting}
+    public String getClassName(int idx) {
+        String[] names = {"java.lang.Loop0", "java.lang.Loop1", "java.lang.Loop2", "java.lang.Loop3"};
+        return names[idx];
+    }
+    public void test(){
+        String className = null;
+        for(int i=0; i<4; i++) {
+            className = getClassName(i);
+            Logger.reportString(className, "LoopInter");
+            doReflect(className);
+        }
+    }
+\end{lstlisting}
+SSI Result: \{"null", "..Loop0", "..Loop1", "..Loop2", "..Loop3"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+
+\begin{frame}[fragile]{Infinite Test1}
+\begin{lstlisting}
+    public void test(){
+        String className = "";
+        for(int i=1; i < Integer.MAX_VALUE; i++) {
+            className += 'x';
+        }
+        Logger.reportString(className, "InfiniteTest");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"", "x", "xx", "xxx"\} $\odot$\\
+FASI Result: Recognize Regular Expression: x*  \checkmark
+\end{frame}
+
+\begin{frame}[fragile]{Infinite Test2}
+\begin{lstlisting}
+    public void test(){
+        String className = "";
+        for(int i=1; i < Integer.MAX_VALUE; i++) {
+            className += ('x'+i);
+        }
+        Logger.reportString(className, "InfiniteTest");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{\} $\times$\\
+FASI Result: \{\}$\times$
+\end{frame}
+
+\begin{frame}[fragile]{Recursive Test}
+\begin{lstlisting}
+    public String recur(int deep) {
+        if(deep > 0) {
+            return recur(--deep) + "recur ";
+        } else {
+            return "recur ";
+        }
+    }
+    public void test(){
+        String className = recur(5);
+        Logger.reportString(className, "RecursiveTest");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"recur "\} $\odot$\\
+FASI Result: same as SSI $\odot$
+\end{frame}
+
+\begin{frame}[fragile]{Realistic Test 1: class name from external}
+\begin{lstlisting}
+    public String getClassName() {
+        return getClassNameFromExternal();
+    }
+    private String getClassNameFromExternal() {
+        return "java.lang.Object";
+    }
+    public void test(){
+        String className = getClassName();
+        Logger.reportString(className, "ReflectNameFromExternal");
+        doReflect(className);
+    }
+\end{lstlisting}
+SSI Result: \{"java.lang.Object"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+
+\begin{frame}[fragile]{Realistic Test 2: class name from file directions}
+\begin{lstlisting}
+    public String getClassName() {
+        String[] dirs = new String[]{"java", "lang", "Object"};
+        String className = null;
+        for (String dir : dirs) {
+            className += dir;
+            className += ".";
+        }
+        return className.substring(0, className.length()-1);}
+    public void test(){
+        String className = getClassName();
+        Logger.reportString(className, "ReflectNameFromDirs");
+        doReflect(className);}
+\end{lstlisting}
+SSI Result:\\
+FASI Result:
+\end{frame}
+
+\begin{frame}[fragile]{Realistic Test 3: OWASP}
+\begin{lstlisting}
+    public void doAction(String className){
+        Class c = Class.forName(className);
+        // expect result: "Command1", "CommandEvil"
+        Logger.reportString(className, "OWASP");
+        Worker w = (Worker)c.newInstance();
+        w.doAction();
+    }
+    public static void main(String[] args){
+        OWASP demo = new OWASP();
+        demo.doAction("Command1");
+        demo.doAction("CommandEvil");
+    }
+\end{lstlisting}
+SSI Result: \{"Command1","CommandEvil"\} \checkmark\\
+FASI Result: same as SSI \checkmark
+\end{frame}
+
+
+\end{document}
+
+
