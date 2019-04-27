@@ -1,12 +1,13 @@
-package reflection;
+package reflection.others;
 
 import LoggerLib.Logger;
+import reflection.BaseCase;
 
 public class RecursiveTest extends BaseCase {
-    public String getClassName(){
-        String className = recur(5);
-        return className;
-    }
+//    public String getClassName(){
+//        String className =
+//        return className;
+//    }
 
     public String recur(int deep) {
 
@@ -18,7 +19,7 @@ public class RecursiveTest extends BaseCase {
     }
 
     public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        String className = getClassName();
+        String className = recur(5);
         Logger.reportString(className, "RecursiveTest");    // expect result: "(recur ){5}"
         doReflect(className);
     }

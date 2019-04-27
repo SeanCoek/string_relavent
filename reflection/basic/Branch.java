@@ -5,18 +5,13 @@ import reflection.BaseCase;
 
 public class Branch extends BaseCase {
 
-    public String getClassName() {
+    public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         String className = null;
         if(Math.random() > 0.5) {
             className = "java.lang.Object";
         } else {
             className = "java.lang.Class";
         }
-        return className;
-    }
-
-    public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        String className = getClassName();
         Logger.reportString(className, "Branch");       // expect result: "java.lang.Object", "java.lang.Class"
         doReflect(className);
     }

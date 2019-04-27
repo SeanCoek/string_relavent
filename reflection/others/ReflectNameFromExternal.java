@@ -1,8 +1,9 @@
-package reflection;
+package reflection.others;
 
 import LoggerLib.Logger;
+import reflection.BaseCase;
 
-public class Reflect1 extends BaseCase {
+public class ReflectNameFromExternal extends BaseCase {
 
     public String getClassName() {
         return getClassNameFromExternal();
@@ -14,7 +15,7 @@ public class Reflect1 extends BaseCase {
 
     public void test() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         String className = getClassName();
-        Logger.reportString(className, "Reflect1");     //expect result: "java.lang.Object"
+        Logger.reportString(className, "ReflectNameFromExternal");     //expect result: "java.lang.Object"
         doReflect(className);
     }
 }
