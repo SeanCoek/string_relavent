@@ -5,8 +5,7 @@ import LoggerLib.Logger;
 
 public class SequentialInter extends BaseCase {
     public String getClassName1() {
-        String className = "java.lang.Object1";
-        return className;
+        return "java.lang.Object1";
     }
 
     public String getClassName2() {

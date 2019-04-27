@@ -4,7 +4,8 @@ import LoggerLib.Logger;
 import reflection.BaseCase;
 
 public class ReflectNameFromDirs extends BaseCase {
-    public String getClassName(String[] dirs) {
+    public String getClassName() {
+        String[] dirs = new String[]{"java", "lang", "Object"};
         String className = null;
         for (String dir : dirs) {
             className += dir;
@@ -15,8 +16,7 @@ public class ReflectNameFromDirs extends BaseCase {
     }
 
     public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        String[] dirs = new String[]{"java", "lang", "Object"};
-        String className = getClassName(dirs);
+        String className = getClassName();
         Logger.reportString(className, "ReflectNameFromDirs");     //expect result: "java.lang.Object"
         doReflect(className);
     }
