@@ -1,4 +1,4 @@
-package reflection.others;
+package reflection.main;
 
 import LoggerLib.Logger;
 import reflection.BaseCase;
@@ -10,8 +10,8 @@ public class ReflectNameFromDirs extends BaseCase {
             className += dir;
             className += ".";
         }
-        assert className != null;
-        return className.substring(0, className.length()-1);
+
+        return className;
     }
 
     public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
@@ -20,5 +20,10 @@ public class ReflectNameFromDirs extends BaseCase {
         Logger.reportString(className, "ReflectNameFromDirs");     //expect result: "java.lang.Object"
         doReflect(className);
     }
+//
+//    public static void main(String[] args) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+//        ReflectNameFromDirs r = new ReflectNameFromDirs();
+//        r.test();
+//    }
 
 }

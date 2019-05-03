@@ -4,10 +4,6 @@ import LoggerLib.Logger;
 import reflection.BaseCase;
 
 public class RecursiveTest extends BaseCase {
-//    public String getClassName(){
-//        String className =
-//        return className;
-//    }
 
     public String recur(int deep) {
 

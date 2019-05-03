@@ -6,7 +6,8 @@ import LoggerLib.Logger;
 public class LoopInter extends BaseCase {
     public String getClassName(int idx) {
         String className;
-        String[] names = {"java.lang.Loop0", "java.lang.Loop1", "java.lang.Loop2", "java.lang.Loop3"};
+        String[] names = {"java.lang.Loop0", "java.lang.Loop1", "java.lang.Loop2", "java.lang.Loop3",
+                            "java.lang.Loop4", "java.lang.Loop5", "java.lang.Loop6"};
         className = names[idx];
         return className;
     }
@@ -19,4 +20,5 @@ public class LoopInter extends BaseCase {
             doReflect(className);
         }
     }
+
 }

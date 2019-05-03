@@ -1,4 +1,4 @@
-package reflection.others;// ref: https://www.owasp.org/index.php/Unsafe_use_of_Reflection
+package reflection.main;// ref: https://www.owasp.org/index.php/Unsafe_use_of_Reflection
 
 import LoggerLib.Logger;
 

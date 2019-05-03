@@ -1,4 +1,4 @@
-package reflection.others;
+package reflection.main;
 
 import LoggerLib.Logger;
 import reflection.BaseCase;
