@@ -18,6 +18,7 @@ public class ReflectNameFromExternal extends BaseCase {
         Logger.reportString(className, "ReflectNameFromExternal");     //expect result: "java.lang.Object"
         doReflect(className);
     }
+
 }
 
 

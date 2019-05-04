@@ -21,4 +21,9 @@ public class SequentialInter extends BaseCase {
         Logger.reportString(className, "Sequential1Inter2");     // expect result: "java.lang.Object2"
         doReflect(className);
     }
+
+    public static void main(String[] args) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+        SequentialInter s = new SequentialInter();
+        s.test();
+    }
 }

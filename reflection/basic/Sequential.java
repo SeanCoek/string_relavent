@@ -11,7 +11,7 @@ public class Sequential extends BaseCase {
         doReflect(className);
 
         className = "java.lang.Object2";
-        Logger.reportString(className, "Sequential12");     // expect result: "java.lang.Object2"
+        Logger.reportString(className, "Sequential2");     // expect result: "java.lang.Object2"
         doReflect(className);
     }
 }

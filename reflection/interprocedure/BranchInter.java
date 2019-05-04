@@ -16,7 +16,7 @@ public class BranchInter extends BaseCase {
 
     public void test() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         String className = getClassName();
-        Logger.reportString(className, "BranchInter");       // expect result: "java.lang.Object", "java.lang.Class"
+        Logger.reportString(className, "BranchInter");
         doReflect(className);
     }
 }

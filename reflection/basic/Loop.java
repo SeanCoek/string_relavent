@@ -13,7 +13,7 @@ public class Loop extends BaseCase {
                             "java.lang.Loop4", "java.lang.Loop5", "java.lang.Loop6"};
         for(int i=0; i<4; i++) {
             className = names[i];
-            Logger.reportString(className, "Loop");     //expect result: "java.lang.Loop0", "java.lang.Loop1", "java.lang.Loop2", "java.lang.Loop3"
+            Logger.reportString(className, "Loop");
             l.doReflect(className);
         }
     }

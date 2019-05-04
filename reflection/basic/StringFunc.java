@@ -19,5 +19,8 @@ public class StringFunc extends BaseCase {
         Logger.reportString(toUpper, "StringFunc_toUpperCase");
         String subString = testStr.substring(0, 2);
         Logger.reportString(subString, "StringFunc_substring");
+        String testStrtrim = testStr + "  ";
+        testStrtrim = testStrtrim.trim();
+        Logger.reportString(testStrtrim, "StringFunc_trim");
     }
 }

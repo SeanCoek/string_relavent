@@ -5,7 +5,7 @@ import LoggerLib.Logger;
 public class OWASP {
     public void doAction(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         Class c = Class.forName(className);
-        Logger.reportString(className, "OWASP");       // expect result: "Command1", "CommandEvil"
+        Logger.reportString(className, "OWASP");
         Worker w = (Worker)c.newInstance();
         w.doAction();
     }
