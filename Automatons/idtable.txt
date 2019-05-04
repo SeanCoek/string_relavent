@@ -1,4 +1,12 @@
-OWASP:0
-Loop:1
-InfiniteTest:2
-Branch:3
+StringFunc_toLowerCase:0
+LoopInter:1
+Sequential1:2
+StringFunc_concat:3
+StringFunc_toUpperCase:4
+Sequential12:5
+BranchInter:6
+InfiniteTest:7
+Branch:8
+RecursiveTest:9
+StringFunc_replaceAll:10
+StringFunc_replaceFirst:11
