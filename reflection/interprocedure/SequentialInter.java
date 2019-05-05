@@ -18,7 +18,7 @@ public class SequentialInter extends BaseCase {
         doReflect(className);
 
         className = getClassName2();
-        Logger.reportString(className, "Sequential1Inter2");     // expect result: "java.lang.Object2"
+        Logger.reportString(className, "SequentialInter2");     // expect result: "java.lang.Object2"
         doReflect(className);
     }
 
