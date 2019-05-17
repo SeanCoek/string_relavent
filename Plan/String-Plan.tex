@@ -1,0 +1,75 @@
+\documentclass{llncs}
+%\usepackage[utf8]{inputenc}
+
+\title{Leverage String Analysis For Java Reflection}
+\author{\today}
+\institute{Jinan University}
+%\date{November 2018}
+
+%\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage{url}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{cancel}
+\usepackage{listings, tikz}
+\usetikzlibrary{positioning,shapes}
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Property}{Property}
+\newtheorem{Corollary}{Corollary}
+\newtheorem{Proof}{Proof}
+
+
+\begin{document}
+
+\maketitle
+
+%\section{Nontransitive Noninterference}
+%\subsection*{Syntax and Semantics}
+\newcommand\Loc{\mathcal{L}}
+\newcommand\Var{\mathcal{V}}
+\newcommand\Label{\Phi}
+\newcommand\set[1]{\{#1\}}
+\newcommand\power{\mathcal{P}}
+\newcommand\join{\cup}
+\newcommand\subtype{\subseteq}
+
+\subsection*{The Overall Framework}
+
+
+
+
+\subsection*{Related Work}
+
+There are three main categories of works, (1) string analysis by abstract interpretation, (2) string analysis by constraint solving, and (3) points-to analysis for Java with a focus on the Java reflection API.
+
+In the first category, we look at various definition of string domains, with String Set domain and Finite Automaton domain. Cristensen et al.~\cite{Christensen03}'s Java string analyzer is probability the first comprehensive work that applies the Finite Automaton domain to compute string values. The relationship between string variables is represented in a Context free-like format, which reflect the potential inter-dependencies between them in the inter-procedural calls and loops. A conservative interpretation by Finite automata is achieved by semantically approximate the context free relationship by means of Mohri-Nederhof transformation~\cite{MN01}. Yu et al.~\cite{Yu11,YSLCWB16,Wang16} studied finite automata as abstract domains for strings, and further applied this technique in the area of web application security. Li et al.~\cite{LLMW015} developed a tool \emph{violist} for string analysis of Java and Android applications. This tool is a framework that provides an intermediate representation for data flow dependencies between string variables in a program, parameterized by string domains to be used as well as degrees of loop unfolding.
+
+Amadini et al.~\cite{Amadini17} have considered a range of string domains for the analysis of JavaScript language, including String Set and Constant String domains ($\mathcal{SS}_k$, $\mathcal{CS}$), Character Inclusion domain (CI), the Prefix-Suffix domain (PS), The String Hash domain (SH) and some other JavaScript specific domains (e.g., unsigned-or-other $\mathcal{UO}$, Number-or-other $\mathcal{NO}$, Number-Special-or-other $\mathcal{NS}$) used by other tools such as SAFE, TAJS and JSAI. They have conducted empirical evaluation by applying these domains in various combinations. Empirically, the hybrid domain $\mathcal{CI}\times\mathcal{NO}\times\mathcal{SS}_k$ seems to have the best \emph{Score} (i.e., good precision with reasonable performance) regarding the tested JavaScript benchmarks.
+%Possibly, it is worthy to make a comparison between this hybrid domain with the Automaton domain ???
+Costantini et al.~\cite{Costantini13} applied combinations of string abstract domains for security vulnerability detection in the Structural Query Language (SQL) made of strings. They have discussed the trade-off between efficiency and accuracy when using such domains to catch various properties of interest.
+
+The second category provides a reach context of constraint solving frameworks and algorithms, including e.g., $Z3$-Str~\cite{z3str3}, $S3P$~\cite{TrinhCJ16}, $CVC4$~\cite{Barrett11}, and Mini-zinc etc. The nature of such algorithms tackles satisfiability of string formulas that are usually generated from symbolic execution of programs, so that the level of unsoundness is hard to estimate. However, these are still useful tools for relatively small code bases, or the purpose of the analysis is for bug or vulnerability detection, in which the tool is able to output a concrete violation. \fbox{to add more discussion here}
+
+The third collection of analyses are specific to Java Reflection API. The earliest works of this class include Livshits~\cite{Livshits06} and DOOP~\cite{Bravenboer09} which traces string constants as value-flow which resolves class, object, field and method names during a whole program points-to analysis with call graph construction, taking advantages of efficient Datalog engines. Some follow-up works~\cite{LTSX14,Smaragdakis11} complements
+the value flow with heuristic techniques such as back propagation of use, self-inferencing and substring matching. More recently, Grech et al proposed a heuristic to merge strings in the way that the power of differentiating class members in reflection operations is not affected~\cite{GrechKS18}.
+
+
+\subsection*{The Java Reflection API}
+
+Reflection is a language feature that enables dynamic discovery of an object's type structure
+
+
+
+%\bibliographystyle{plain}
+\bibliographystyle{alpha}
+\bibliography{literature}
+
+
+\end{document}
