@@ -63,7 +63,9 @@ the value flow with heuristic techniques such as back propagation of use, self-i
 
 \subsection*{The Java Reflection API}
 
-Reflection is a language feature that enables dynamic discovery of an object's type structure
+Reflection is a language feature that enables dynamic access of properties of target classes, fields and methods, without holding an object or reference to the class. A class, field, or method object may be created regardless of the \emph{main} part of the program. However, in this work we focus on part of the API that is related to the creation of \emph{useful} object and function calls, which is related to improvement of analysis precision on points-to calculation and call graph construction.
+
+There are two major entry methods for creation of a class object. 
 
 
 
